@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewView.js</name>
+	<filePath>src/main/webapp/static/application/${lastPackageName}/${moduleName}/${subModuleName}/js</filePath>
+	<fileName>${className}View.js</fileName>
+	<content><![CDATA[
+$(function() {
+	// 创建表单
+	// 新增、编辑
+	if (!isEmptyObject(Parameters.get) && !isEmptyObject(Parameters.get.id)) {
+		$.ajax({
+			type : "GET",
+			url : ctx + "/${urlPrefix}/get?id=" + Parameters.get.id,
+			dataType : "json",
+			success : function(data) {
+				var formdata = data.data;
+				$('#c1').form('load', formdata);
+			},
+			error : function(msg) {
+				alert('数据装载失败');
+			}
+		});
+	}
+	//初始化组件
+	<#list table.columnList as c>
+	   <#if c.isNew?? && c.isNew == "1">
+		$('#m_${c.javaFieldId}').textbox({
+		validType:"maxLength[20]",
+		required:true
+		});
+		</#if>
+	</#list>
+	$('#m_remarks').textbox({
+		validType : "maxLength[500]",
+		multiline : true,
+		height : 100
+	});
+	//返回按钮
+	$('#b1').click(function(){
+		closeWindow();
+	});
+});
+]]>
+	</content>
+</template>

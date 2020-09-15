@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewList.js</name>
+	<filePath>src/main/webapp/static/application/${lastPackageName}/${moduleName}/${subModuleName}/js</filePath>
+	<fileName>${className}List.js</fileName>
+	<content><![CDATA[
+function clearComponent() {
+	//清除控件值
+}
+$(function() {
+	var gridH=gridHeight()-2;
+	
+	//初始化grid
+	createDatagrid('grid', '/${urlPrefix}/listData', [ [ 
+	<#assign columnField>
+	<#list table.columnList as c>
+	   <#if c.isList?? && c.isList == "1">
+	{
+		field : '${c.javaFieldId}',
+		title : '${c.comments}',
+		width : 100
+	},
+		</#if>
+	</#list>
+	</#assign>
+${columnField?substring(0, columnField?last_index_of(","))}
+	 ] ], gridH);
+	
+	
+	//初始化组件
+	
+	//初始化按钮
+	
+	// 绑定查询按钮
+	$('#sebtn').click(function() {
+		$('#grid').datagrid('load', getFormValues('c1'));
+	});
+	$('#resech').click(function() {
+		clearComponent();
+	});
+	
+	//绑定新增按钮
+	$('#b1').click(function(){
+		  showWindow(window, '新增${functionNameSimple}信息', '/${urlPrefix}/edit',350,750);
+	 });
+	
+	//绑定删除按钮
+	$('#b2').click(function() {
+		var record = $('#grid').datagrid('getSelections');
+		if (record == null || record.length < 1){
+			$.messager.alert('提示','请选择一条记录！');
+		}else{
+			deleteConfirm(function(r){
+				if(!r)return;
+				$.ajax({
+					type: "GET",
+					url: ctx + "/${urlPrefix}/delete?id="+record[0]['id'],
+					dataType: "json",
+					success: function(msg){
+						$.messager.alert('提示','删除成功');
+						$('#grid').datagrid('reload');
+				    },
+					error: function(msg){
+						$.messager.alert('提示','删除失败');
+					}
+				}); 
+			});
+		}
+	});
+	
+	//绑定修改按钮
+	$('#b3').click(function(){
+		var record = $('#grid').datagrid('getSelections');
+		if (record == null || record.length < 1){
+			$.messager.alert('提示','请选择一条记录！');
+		}else{
+		  showWindow(window, '修改${functionNameSimple}信息', '/${urlPrefix}/edit?id='+record[0]['id'],350,750);
+		}
+	 });
+	
+	//绑定查看按钮
+	$('#b4').click(function(){
+		var record = $('#grid').datagrid('getSelections');
+		if (record == null || record.length < 1){
+			$.messager.alert('提示','请选择一条记录！');
+		}else{
+			showWindow(window, '查看${functionNameSimple}信息', '/${urlPrefix}/view?id='+record[0]['id'],350,750);
+		}
+	 });
+	
+	
+});
+]]>
+	</content>
+</template>

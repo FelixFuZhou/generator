@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.local.common.dao.ShopCouponConfigDao">
+    
+	<sql id="shopCouponConfigColumns">
+		a.id AS "id",
+		a.shop_id AS "shopId",
+		a.third_shop_id AS "thirdShopId",
+		a.third_coupon_id AS "thirdCouponId",
+		a.shop_wx_enterprise_id AS "shopWxEnterpriseId",
+		a.begin_time AS "beginTime",
+		a.end_time AS "endTime",
+		a.title AS "title",
+		a.sub_title AS "subTitle",
+		a.img_url AS "imgUrl",
+		a.jump_url AS "jumpUrl",
+		a.status AS "status",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime",
+		a.create_user AS "createUser",
+		a.update_user AS "updateUser"
+	</sql>
+	
+	<sql id="shopCouponConfigJoins">
+	</sql>
+	
+	<sql id ="shopCouponConfigWheresql">
+	where 1=1 and a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="id != null">
+			AND a.id = #{id}
+		</if>
+		<if test="shopId != null">
+			AND a.shop_id = #{shopId}
+		</if>
+		<if test="thirdShopId != null and thirdShopId != ''">
+			AND a.third_shop_id = #{thirdShopId}
+		</if>
+		<if test="thirdCouponId != null and thirdCouponId != ''">
+			AND a.third_coupon_id = #{thirdCouponId}
+		</if>
+		<if test="shopWxEnterpriseId != null and shopWxEnterpriseId != ''">
+			AND a.shop_wx_enterprise_id = #{shopWxEnterpriseId}
+		</if>
+		<if test="beginTime != null">
+			AND a.begin_time = #{beginTime}
+		</if>
+		<if test="endTime != null">
+			AND a.end_time = #{endTime}
+		</if>
+		<if test="title != null and title != ''">
+			AND a.title = #{title}
+		</if>
+		<if test="subTitle != null and subTitle != ''">
+			AND a.sub_title = #{subTitle}
+		</if>
+		<if test="imgUrl != null and imgUrl != ''">
+			AND a.img_url = #{imgUrl}
+		</if>
+		<if test="jumpUrl != null and jumpUrl != ''">
+			AND a.jump_url = #{jumpUrl}
+		</if>
+		<if test="status != null">
+			AND a.status = #{status}
+		</if>
+		<if test="createTime != null">
+			AND a.create_time = #{createTime}
+		</if>
+		<if test="updateTime != null">
+			AND a.update_time = #{updateTime}
+		</if>
+		<if test="createUser != null and createUser != ''">
+			AND a.create_user = #{createUser}
+		</if>
+		<if test="updateUser != null and updateUser != ''">
+			AND a.update_user = #{updateUser}
+		</if>
+	</sql>
+    
+	<select id="get" resultType="ShopCouponConfig">
+		SELECT 
+			<include refid="shopCouponConfigColumns"/>
+		FROM shop_coupon_config a
+		<include refid="shopCouponConfigJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByBean" resultType="ShopCouponConfig">
+		SELECT 
+			<include refid="shopCouponConfigColumns"/>
+		FROM shop_coupon_config a
+		<include refid="shopCouponConfigJoins"/>
+		<include refid="shopCouponConfigWheresql"/>
+	</select>
+	
+	
+	<select id="findList" resultType="ShopCouponConfig">
+		SELECT 
+			<include refid="shopCouponConfigColumns"/>
+		FROM shop_coupon_config a
+		<include refid="shopCouponConfigJoins"/>
+		<include refid="shopCouponConfigWheresql"/>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ShopCouponConfig">
+		SELECT 
+			<include refid="shopCouponConfigColumns"/>
+		FROM shop_coupon_config a
+		<include refid="shopCouponConfigJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO shop_coupon_config(
+			id,
+			shop_id,
+			third_shop_id,
+			third_coupon_id,
+			shop_wx_enterprise_id,
+			begin_time,
+			end_time,
+			title,
+			sub_title,
+			img_url,
+			jump_url,
+			status,
+			create_time,
+			update_time,
+			create_user,
+			update_user
+		) VALUES (
+			#{id},
+			#{shopId},
+			#{thirdShopId},
+			#{thirdCouponId},
+			#{shopWxEnterpriseId},
+			#{beginTime},
+			#{endTime},
+			#{title},
+			#{subTitle},
+			#{imgUrl},
+			#{jumpUrl},
+			#{status},
+			#{createTime},
+			#{updateTime},
+			#{createUser},
+			#{updateUser}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE shop_coupon_config SET 	
+		<if test="shopId != null">
+			shop_id = #{shopId},
+		</if>
+		<if test="thirdShopId != null and thirdShopId != ''">
+			third_shop_id = #{thirdShopId},
+		</if>
+		<if test="thirdCouponId != null and thirdCouponId != ''">
+			third_coupon_id = #{thirdCouponId},
+		</if>
+		<if test="shopWxEnterpriseId != null and shopWxEnterpriseId != ''">
+			shop_wx_enterprise_id = #{shopWxEnterpriseId},
+		</if>
+		<if test="beginTime != null">
+			begin_time = #{beginTime},
+		</if>
+		<if test="endTime != null">
+			end_time = #{endTime},
+		</if>
+		<if test="title != null and title != ''">
+			title = #{title},
+		</if>
+		<if test="subTitle != null and subTitle != ''">
+			sub_title = #{subTitle},
+		</if>
+		<if test="imgUrl != null and imgUrl != ''">
+			img_url = #{imgUrl},
+		</if>
+		<if test="jumpUrl != null and jumpUrl != ''">
+			jump_url = #{jumpUrl},
+		</if>
+		<if test="status != null">
+			status = #{status},
+		</if>
+		<if test="createTime != null">
+			create_time = #{createTime},
+		</if>
+		<if test="updateTime != null">
+			update_time = #{updateTime},
+		</if>
+		<if test="createUser != null and createUser != ''">
+			create_user = #{createUser},
+		</if>
+		<if test="updateUser != null and updateUser != ''">
+			update_user = #{updateUser},
+		</if>
+			id =  #{id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM shop_coupon_config
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

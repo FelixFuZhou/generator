@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.local.common.dao.SoundVideoAuthDao">
+    
+	<sql id="soundVideoAuthColumns">
+		a.id AS "id",
+		a.open_id AS "openId",
+		a.union_id AS "unionId",
+		a.member_id AS "memberId",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime",
+		a.status AS "status"
+	</sql>
+	
+	<sql id="soundVideoAuthJoins">
+	</sql>
+	
+	<sql id ="soundVideoAuthWheresql">
+	where 1=1 and a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="id != null">
+			AND a.id = #{id}
+		</if>
+		<if test="openId != null and openId != ''">
+			AND a.open_id = #{openId}
+		</if>
+		<if test="unionId != null and unionId != ''">
+			AND a.union_id = #{unionId}
+		</if>
+		<if test="memberId != null and memberId != ''">
+			AND a.member_id = #{memberId}
+		</if>
+		<if test="createTime != null">
+			AND a.create_time = #{createTime}
+		</if>
+		<if test="updateTime != null">
+			AND a.update_time = #{updateTime}
+		</if>
+		<if test="status != null">
+			AND a.status = #{status}
+		</if>
+	</sql>
+    
+	<select id="get" resultType="SoundVideoAuth">
+		SELECT 
+			<include refid="soundVideoAuthColumns"/>
+		FROM sound_video_auth a
+		<include refid="soundVideoAuthJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByBean" resultType="SoundVideoAuth">
+		SELECT 
+			<include refid="soundVideoAuthColumns"/>
+		FROM sound_video_auth a
+		<include refid="soundVideoAuthJoins"/>
+		<include refid="soundVideoAuthWheresql"/>
+	</select>
+	
+	
+	<select id="findList" resultType="SoundVideoAuth">
+		SELECT 
+			<include refid="soundVideoAuthColumns"/>
+		FROM sound_video_auth a
+		<include refid="soundVideoAuthJoins"/>
+		<include refid="soundVideoAuthWheresql"/>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SoundVideoAuth">
+		SELECT 
+			<include refid="soundVideoAuthColumns"/>
+		FROM sound_video_auth a
+		<include refid="soundVideoAuthJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sound_video_auth(
+			id,
+			open_id,
+			union_id,
+			member_id,
+			create_time,
+			update_time,
+			status
+		) VALUES (
+			#{id},
+			#{openId},
+			#{unionId},
+			#{memberId},
+			#{createTime},
+			#{updateTime},
+			#{status}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sound_video_auth SET 	
+		<if test="openId != null and openId != ''">
+			open_id = #{openId},
+		</if>
+		<if test="unionId != null and unionId != ''">
+			union_id = #{unionId},
+		</if>
+		<if test="memberId != null and memberId != ''">
+			member_id = #{memberId},
+		</if>
+		<if test="createTime != null">
+			create_time = #{createTime},
+		</if>
+		<if test="updateTime != null">
+			update_time = #{updateTime},
+		</if>
+		<if test="status != null">
+			status = #{status},
+		</if>
+			id =  #{id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sound_video_auth
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

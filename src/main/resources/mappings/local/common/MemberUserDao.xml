@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.local.common.dao.MemberUserDao">
+    
+	<sql id="memberUserColumns">
+		a.id AS "id",
+		a.user_no AS "userNo",
+		a.union_id AS "unionId",
+		a.open_id AS "openId",
+		a.member_id AS "memberId",
+		a.nick_name AS "nickName",
+		a.img_url AS "imgUrl",
+		a.balance AS "balance",
+		a.rank AS "rank",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime",
+		a.version AS "version"
+	</sql>
+	
+	<sql id="memberUserJoins">
+	</sql>
+	
+	<sql id ="memberUserWheresql">
+	where 1=1 and a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="id != null">
+			AND a.id = #{id}
+		</if>
+		<if test="userNo != null and userNo != ''">
+			AND a.user_no = #{userNo}
+		</if>
+		<if test="unionId != null and unionId != ''">
+			AND a.union_id = #{unionId}
+		</if>
+		<if test="openId != null and openId != ''">
+			AND a.open_id = #{openId}
+		</if>
+		<if test="memberId != null and memberId != ''">
+			AND a.member_id = #{memberId}
+		</if>
+		<if test="nickName != null and nickName != ''">
+			AND a.nick_name = #{nickName}
+		</if>
+		<if test="imgUrl != null and imgUrl != ''">
+			AND a.img_url = #{imgUrl}
+		</if>
+		<if test="balance != null">
+			AND a.balance = #{balance}
+		</if>
+		<if test="rank != null">
+			AND a.rank = #{rank}
+		</if>
+		<if test="createTime != null">
+			AND a.create_time = #{createTime}
+		</if>
+		<if test="updateTime != null">
+			AND a.update_time = #{updateTime}
+		</if>
+		<if test="version != null">
+			AND a.version = #{version}
+		</if>
+	</sql>
+    
+	<select id="get" resultType="MemberUser">
+		SELECT 
+			<include refid="memberUserColumns"/>
+		FROM member_user a
+		<include refid="memberUserJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByBean" resultType="MemberUser">
+		SELECT 
+			<include refid="memberUserColumns"/>
+		FROM member_user a
+		<include refid="memberUserJoins"/>
+		<include refid="memberUserWheresql"/>
+	</select>
+	
+	
+	<select id="findList" resultType="MemberUser">
+		SELECT 
+			<include refid="memberUserColumns"/>
+		FROM member_user a
+		<include refid="memberUserJoins"/>
+		<include refid="memberUserWheresql"/>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MemberUser">
+		SELECT 
+			<include refid="memberUserColumns"/>
+		FROM member_user a
+		<include refid="memberUserJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO member_user(
+			id,
+			user_no,
+			union_id,
+			open_id,
+			member_id,
+			nick_name,
+			img_url,
+			balance,
+			rank,
+			create_time,
+			update_time,
+			version
+		) VALUES (
+			#{id},
+			#{userNo},
+			#{unionId},
+			#{openId},
+			#{memberId},
+			#{nickName},
+			#{imgUrl},
+			#{balance},
+			#{rank},
+			#{createTime},
+			#{updateTime},
+			#{version}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE member_user SET 	
+		<if test="userNo != null and userNo != ''">
+			user_no = #{userNo},
+		</if>
+		<if test="unionId != null and unionId != ''">
+			union_id = #{unionId},
+		</if>
+		<if test="openId != null and openId != ''">
+			open_id = #{openId},
+		</if>
+		<if test="memberId != null and memberId != ''">
+			member_id = #{memberId},
+		</if>
+		<if test="nickName != null and nickName != ''">
+			nick_name = #{nickName},
+		</if>
+		<if test="imgUrl != null and imgUrl != ''">
+			img_url = #{imgUrl},
+		</if>
+		<if test="balance != null">
+			balance = #{balance},
+		</if>
+		<if test="rank != null">
+			rank = #{rank},
+		</if>
+		<if test="createTime != null">
+			create_time = #{createTime},
+		</if>
+		<if test="updateTime != null">
+			update_time = #{updateTime},
+		</if>
+		<if test="version != null">
+			version = #{version},
+		</if>
+			id =  #{id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM member_user
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

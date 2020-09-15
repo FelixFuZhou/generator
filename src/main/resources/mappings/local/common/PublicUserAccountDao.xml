@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.local.common.dao.PublicUserAccountDao">
+    
+	<sql id="publicUserAccountColumns">
+		a.id AS "id",
+		a.union_id AS "unionId",
+		a.h5_open_id AS "h5OpenId",
+		a.wx_user_no AS "wxUserNo",
+		a.nick_name AS "nickName",
+		a.img_url AS "imgUrl",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime",
+		a.version AS "version"
+	</sql>
+	
+	<sql id="publicUserAccountJoins">
+	</sql>
+	
+	<sql id ="publicUserAccountWheresql">
+	where 1=1 and a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="id != null">
+			AND a.id = #{id}
+		</if>
+		<if test="unionId != null and unionId != ''">
+			AND a.union_id = #{unionId}
+		</if>
+		<if test="h5OpenId != null and h5OpenId != ''">
+			AND a.h5_open_id = #{h5OpenId}
+		</if>
+		<if test="wxUserNo != null and wxUserNo != ''">
+			AND a.wx_user_no = #{wxUserNo}
+		</if>
+		<if test="nickName != null and nickName != ''">
+			AND a.nick_name = #{nickName}
+		</if>
+		<if test="imgUrl != null and imgUrl != ''">
+			AND a.img_url = #{imgUrl}
+		</if>
+		<if test="createTime != null">
+			AND a.create_time = #{createTime}
+		</if>
+		<if test="updateTime != null">
+			AND a.update_time = #{updateTime}
+		</if>
+		<if test="version != null">
+			AND a.version = #{version}
+		</if>
+	</sql>
+    
+	<select id="get" resultType="PublicUserAccount">
+		SELECT 
+			<include refid="publicUserAccountColumns"/>
+		FROM public_user_account a
+		<include refid="publicUserAccountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByBean" resultType="PublicUserAccount">
+		SELECT 
+			<include refid="publicUserAccountColumns"/>
+		FROM public_user_account a
+		<include refid="publicUserAccountJoins"/>
+		<include refid="publicUserAccountWheresql"/>
+	</select>
+	
+	
+	<select id="findList" resultType="PublicUserAccount">
+		SELECT 
+			<include refid="publicUserAccountColumns"/>
+		FROM public_user_account a
+		<include refid="publicUserAccountJoins"/>
+		<include refid="publicUserAccountWheresql"/>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PublicUserAccount">
+		SELECT 
+			<include refid="publicUserAccountColumns"/>
+		FROM public_user_account a
+		<include refid="publicUserAccountJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO public_user_account(
+			id,
+			union_id,
+			h5_open_id,
+			wx_user_no,
+			nick_name,
+			img_url,
+			create_time,
+			update_time,
+			version
+		) VALUES (
+			#{id},
+			#{unionId},
+			#{h5OpenId},
+			#{wxUserNo},
+			#{nickName},
+			#{imgUrl},
+			#{createTime},
+			#{updateTime},
+			#{version}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE public_user_account SET 	
+		<if test="unionId != null and unionId != ''">
+			union_id = #{unionId},
+		</if>
+		<if test="h5OpenId != null and h5OpenId != ''">
+			h5_open_id = #{h5OpenId},
+		</if>
+		<if test="wxUserNo != null and wxUserNo != ''">
+			wx_user_no = #{wxUserNo},
+		</if>
+		<if test="nickName != null and nickName != ''">
+			nick_name = #{nickName},
+		</if>
+		<if test="imgUrl != null and imgUrl != ''">
+			img_url = #{imgUrl},
+		</if>
+		<if test="createTime != null">
+			create_time = #{createTime},
+		</if>
+		<if test="updateTime != null">
+			update_time = #{updateTime},
+		</if>
+		<if test="version != null">
+			version = #{version},
+		</if>
+			id =  #{id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM public_user_account
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

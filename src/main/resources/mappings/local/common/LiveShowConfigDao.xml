@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.local.common.dao.LiveShowConfigDao">
+    
+	<sql id="liveShowConfigColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.icon AS "icon",
+		a.room_id AS "roomId",
+		a.city_id AS "cityId",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime",
+		a.begin_time AS "beginTime",
+		a.end_time AS "endTime",
+		a.status AS "status",
+		a.operator AS "operator"
+	</sql>
+	
+	<sql id="liveShowConfigJoins">
+	</sql>
+	
+	<sql id ="liveShowConfigWheresql">
+	where 1=1 and a.del_flag = #{DEL_FLAG_NORMAL}
+		<if test="id != null">
+			AND a.id = #{id}
+		</if>
+		<if test="name != null and name != ''">
+			AND a.name = #{name}
+		</if>
+		<if test="icon != null and icon != ''">
+			AND a.icon = #{icon}
+		</if>
+		<if test="roomId != null and roomId != ''">
+			AND a.room_id = #{roomId}
+		</if>
+		<if test="cityId != null and cityId != ''">
+			AND a.city_id = #{cityId}
+		</if>
+		<if test="createTime != null">
+			AND a.create_time = #{createTime}
+		</if>
+		<if test="updateTime != null">
+			AND a.update_time = #{updateTime}
+		</if>
+		<if test="beginTime != null">
+			AND a.begin_time = #{beginTime}
+		</if>
+		<if test="endTime != null">
+			AND a.end_time = #{endTime}
+		</if>
+		<if test="status != null">
+			AND a.status = #{status}
+		</if>
+		<if test="operator != null and operator != ''">
+			AND a.operator = #{operator}
+		</if>
+	</sql>
+    
+	<select id="get" resultType="LiveShowConfig">
+		SELECT 
+			<include refid="liveShowConfigColumns"/>
+		FROM live_show_config a
+		<include refid="liveShowConfigJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getByBean" resultType="LiveShowConfig">
+		SELECT 
+			<include refid="liveShowConfigColumns"/>
+		FROM live_show_config a
+		<include refid="liveShowConfigJoins"/>
+		<include refid="liveShowConfigWheresql"/>
+	</select>
+	
+	
+	<select id="findList" resultType="LiveShowConfig">
+		SELECT 
+			<include refid="liveShowConfigColumns"/>
+		FROM live_show_config a
+		<include refid="liveShowConfigJoins"/>
+		<include refid="liveShowConfigWheresql"/>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="LiveShowConfig">
+		SELECT 
+			<include refid="liveShowConfigColumns"/>
+		FROM live_show_config a
+		<include refid="liveShowConfigJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO live_show_config(
+			id,
+			name,
+			icon,
+			room_id,
+			city_id,
+			create_time,
+			update_time,
+			begin_time,
+			end_time,
+			status,
+			operator
+		) VALUES (
+			#{id},
+			#{name},
+			#{icon},
+			#{roomId},
+			#{cityId},
+			#{createTime},
+			#{updateTime},
+			#{beginTime},
+			#{endTime},
+			#{status},
+			#{operator}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE live_show_config SET 	
+		<if test="name != null and name != ''">
+			name = #{name},
+		</if>
+		<if test="icon != null and icon != ''">
+			icon = #{icon},
+		</if>
+		<if test="roomId != null and roomId != ''">
+			room_id = #{roomId},
+		</if>
+		<if test="cityId != null and cityId != ''">
+			city_id = #{cityId},
+		</if>
+		<if test="createTime != null">
+			create_time = #{createTime},
+		</if>
+		<if test="updateTime != null">
+			update_time = #{updateTime},
+		</if>
+		<if test="beginTime != null">
+			begin_time = #{beginTime},
+		</if>
+		<if test="endTime != null">
+			end_time = #{endTime},
+		</if>
+		<if test="status != null">
+			status = #{status},
+		</if>
+		<if test="operator != null and operator != ''">
+			operator = #{operator},
+		</if>
+			id =  #{id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM live_show_config
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

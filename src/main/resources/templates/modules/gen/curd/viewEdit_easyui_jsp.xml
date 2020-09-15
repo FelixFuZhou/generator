@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+	<name>viewEdit.jsp</name>
+	<filePath>src/main/webapp/WEB-INF/views/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+	<fileName>${className}Edit.jsp</fileName>
+	<content><![CDATA[
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%@ include file="/WEB-INF/views/include/head.jsp"%>
+<html>
+<head>
+	<title>${functionNameSimple}管理</title>
+	<script type="text/javascript" src="${r"${ctxStatic}"}/application/${moduleName}/${subModuleName}js/${className}Edit.js"></script>
+	<script type="text/javascript" src="${r"${ctxStatic}"}/common/js/pageLoading.js"></script>
+</head>
+<body>
+	<div class="easyui-layout" data-options="fit:true">
+		<div region="center" border="false">
+			<div title="信息填写">
+				<form id="c1" method="post" action="${r"${ctx}"}/${urlPrefix}/save">
+					<!-- 布局填写组件信息 -->
+					<fieldset>
+						<legend>基础信息</legend>
+							<#list table.editcolumnList as c>
+									<#if c_has_next>
+									<#if c_index==0>
+										<table class="x1-layout">
+			                            <tr>
+			                                <td class="label">${c.comments}<span class="red">*</span>：</td>
+			                                <td class="c3">
+			                                    <input id="m_id" name="id" type="hidden" />
+			                                    <input id="m_${c.javaFieldId}" name="${c.javaFieldId}" />
+			                                </td>
+									<#elseif c_index%3 ==0>
+										</tr>
+										</table>
+										<table class="x1-layout">
+			                            <tr>
+			                                <td class="label">${c.comments}<span class="red">*</span>：</td>
+			                                <td class="c3">
+			                                    <input id="m_${c.javaFieldId}" name="${c.javaFieldId}" />
+			                                </td>
+									<#else>
+										<td class="label">${c.comments}<span class="red">*</span>：</td>
+			                                <td class="c3">
+			                                    <input id="m_${c.javaFieldId}" name="${c.javaFieldId}" />
+			                             </td>
+									</#if>
+									<#else>
+									<#if c_index%3 ==0>
+									</tr>
+										</table>
+										<table class="x1-layout">
+			                            <tr>
+			                                <td class="label">${c.comments}<span class="red">*</span>：</td>
+			                                <td class="c3">
+			                                    <input id="m_${c.javaFieldId}" name="${c.javaFieldId}" />
+			                                </td>
+			                                <td class="label"></td>
+		                                	<td class="c3"></td>
+		                                	<td class="label"></td>
+		                                	<td class="c3"></td>
+									</tr>
+									</table>
+									<#elseif  c_index%3 ==1>
+											<td class="label">${c.comments}<span class="red">*</span>：</td>
+			                                <td class="c3">
+			                                    <input id="m_${c.javaFieldId}" name="${c.javaFieldId}" />
+			                                </td>
+										<td class="label"></td>
+		                                <td class="c3">
+		                                </td>
+									</tr>
+									</table>
+									<#else>
+										<td class="label">${c.comments}<span class="red">*</span>：</td>
+		                                <td class="c3">
+		                                    <input id="m_${c.javaFieldId}" name="${c.javaFieldId}" />
+		                                </td>
+									</tr>
+									</table>
+									</#if>
+									</#if>
+						 	</#list>
+						 	<table class="x1-layout">
+							<tr>
+								<td class="label">备注 ：</td>
+								<td class="c1">
+									<input id="m_remarks" name="remarks" />
+								</td>
+							</tr>
+						</table>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		<div id="toolBar" data-options="region:'south',border:false">
+			<!--             保存按钮                 -->
+			<a id="b1" class="easyui-linkbutton" iconCls="icon-ok" href="javascript:void(0)">保存</a> 
+			<!--             取消按钮                     -->
+			<a id="b2" class="easyui-linkbutton" iconCls="icon-undo" href="javascript:void(0)">返回</a>
+		</div>
+	</div>
+</body>
+</html>]]>
+	</content>
+</template>
